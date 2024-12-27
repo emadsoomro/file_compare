@@ -59,8 +59,11 @@ def extract_data_from_GD_file(file):
 
                 Place_of_Delivery = text_with_boxes.split("DELIVERY TERMS")[1].split("31.NUMBER")[0].split("-")[0].strip().lower()
                 Place_of_Delivery = Place_of_Delivery.split()
-                ind_element = Place_of_Delivery[0]
-                ind_City = Place_of_Delivery[1:].index(ind_element) + 1
+                ind_element = Place_of_Delivery[0].replace(',','')
+                Place_of_Delivery__ = Place_of_Delivery[1:]
+                Place_of_Delivery__ = list(map(lambda x:x.replace(',','') , Place_of_Delivery__))
+                ind_City = Place_of_Delivery__.index(ind_element)
+                ind_City = ind_City + 1
                 Port_of_Discharge = Place_of_Delivery[:ind_City]
                 Place_of_Delivery = Place_of_Delivery[ind_City:]
 
@@ -546,14 +549,14 @@ def Compare_files(GD_file_path, Invoice_path, Title):
             invoice_data.update({"Name": Invoice_data["Name"]})
         # Address =GD_file_data["Address"].lower() == Invoice_data["Address"].lower()
 
-        Importer_name_and_addr = GD_file_data["Importer_name_and_addr"].lower() == Invoice_data["Importer_name_and_addr"].lower()
+        Importer_name_and_addr = GD_file_data["Importer_name_and_addr"].lower().replace(',','') == Invoice_data["Importer_name_and_addr"].lower().replace(',','')
         if not Importer_name_and_addr:
             Importer_name_and_addr = GD_file_data["Importer_name_and_addr"].replace(" ","").replace(",","").replace(".","").lower() == Invoice_data["Importer_name_and_addr"].replace(" ","").replace(",","").replace(".","").lower()
             if not Importer_name_and_addr:
                 gd_data.update({"Importer_name_and_addr": GD_file_data["Importer_name_and_addr"]})
                 invoice_data.update({"Importer_name_and_addr": Invoice_data["Importer_name_and_addr"]})
 
-        Place_of_Delivery = GD_file_data["Place_of_Delivery"].lower() == Invoice_data["Place_of_Delivery"].lower()
+        Place_of_Delivery = GD_file_data["Place_of_Delivery"].lower().replace(',','') == Invoice_data["Place_of_Delivery"].lower().replace(',','')
         if not Place_of_Delivery:
             Place_of_Delivery = GD_file_data["Place_of_Delivery"].lower() in Invoice_data["Place_of_Delivery"].lower().split(" ")
             if not Place_of_Delivery:
@@ -613,7 +616,7 @@ def Compare_files(GD_file_path, Invoice_path, Title):
         return {f"error: {e}"}
 
 
-# Invoice = 'C:\\Users\\admin\\Downloads\\Hhwzse.xlsx'
+# Invoice = 'C:\\Users\\USER\\Downloads\\Copy of CUSTOM INVOICE 1691-C.xlsx'
 # Invoice = 'C:\\Users\\admin\\Downloads\\INVOICE ALI MURTAZA.pdf'
 # Invoice = 'C:\\Users\\admin\\Downloads\\INVOIE AKHTAR 1586-B.xlsx'
 # Invoice = 'C:\\Users\\admin\\Downloads\\INVOCIE PROLINE 644.xls'
@@ -637,8 +640,8 @@ def Compare_files(GD_file_path, Invoice_path, Title):
 # Invoice = 'C:\\Users\\admin\\Downloads\\GD-Invoices\\INVOICE EXCEL PROLINE.xls'
 # Invoice = 'C:\\Users\\admin\\Downloads\\GD-Invoices\\INVOICE LIBERTY EXCEL.xlsx'
 # GD_file = 'C:\\Users\\admin\\Downloads\\ALI MURTAZA GD.pdf'
-# GD_file = 'C:\\Users\\admin\\Downloads\\Akhtar_new_GD.pdf'
-
+# GD_file = 'C:\\Users\\USER\\Downloads\\FRONT PAGE.pdf'
+#
 # if __name__ == "__main__":
 #     try:
 #         matched= Compare_files(Invoice_path=Invoice, GD_file_path=GD_file, Title="Akhtar")
