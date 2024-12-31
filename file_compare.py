@@ -601,7 +601,7 @@ def Compare_files(GD_file_path, Invoice_path, Title):
             gd_data.update({"Invoice_no": GD_file_data["Invoice_no"]})
             invoice_data.update({"Invoice_no": Invoice_data["Invoice_no"]})
 
-        Name = GD_file_data["Name"].lower().replace("limited","ltd") == Invoice_data["Name"].lower().replace("limited","ltd")
+        Name = GD_file_data["Name"].lower().replace("limited","ltd.").replace("private","pvt.").replace("(","").replace(")","") == Invoice_data["Name"].lower().replace("limited","ltd.").replace("private","pvt.").replace("(","").replace(")","")
         if not Name:
             gd_data.update({"Name": GD_file_data["Name"]})
             invoice_data.update({"Name": Invoice_data["Name"]})
@@ -695,10 +695,12 @@ def Compare_files(GD_file_path, Invoice_path, Title):
 # Invoice = 'C:\\Users\\admin\\Downloads\\GD-Invoices\\INVOICE LIBERTY EXCEL.xlsx'
 # GD_file = 'C:\\Users\\admin\\Downloads\\ALI MURTAZA GD.pdf'
 # GD_file = 'C:\\Users\\admin\\Downloads\\rptViewer1 (75).pdf'
-
+# GD_file = 'C:\\Users\\admin\\Downloads\\fwdproline\\rptViewer1.pdf'
+# Invoice = 'C:\\Users\\admin\\Downloads\\fwdproline\\CUSTOM INVOICE PL-709.xls'
+#
 # if __name__ == "__main__":
 #     try:
-#         matched= Compare_files(Invoice_path=Invoice, GD_file_path=GD_file, Title="Liberty")
+#         matched= Compare_files(Invoice_path=Invoice, GD_file_path=GD_file, Title="Proline")
 #         print(matched)
 #     except Exception as e:
 #         print(e)
